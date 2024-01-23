@@ -16,6 +16,18 @@ const defaultRoute = '/';
 export function navigateTo(hash) {
   const route = routest.find((routefind) => routefind.path === hash);
   if (route && route.component) {
+    if (hash === '/wall') {
+      const isAuthenticated = () => {
+        const userEmail = localStorage.getItem('email');
+        const userPass = localStorage.getItem('pass');
+        return userEmail && userPass;
+      };
+
+      if (!isAuthenticated()) {
+        navigateTo('/');
+        return;
+      }
+    }
     window.history.pushState(
       {},
       route.path,
